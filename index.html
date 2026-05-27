@@ -474,7 +474,6 @@ function confirmAction() {
 }
 
 // ================= AUDIO & FIREWORKS =================
-// تحديث رابط الصوت الخارجي
 let currentWinAudio = new Audio('https://www.top4top.me/download/qUq98sj3dVsyICp/2WVGrqbn0zkx7/win.mp3');
 function playWinSound() { try { currentWinAudio.currentTime = 0; currentWinAudio.play(); } catch(e){} }
 function stopWinSound() { try { currentWinAudio.pause(); currentWinAudio.currentTime = 0; } catch(e){} }
@@ -716,14 +715,14 @@ function calculate() {
     return toast(`⚠️ تأكد من الأبناط (المجموع يجب أن يكون ${req})`);
   }
 
-  let oAbnat = bTeam===1?p2raw:p1raw;
-  let baseTot = state.mode === 'sun' ? 26 : 16;
-  let oBase = abntsToNqat(oAbnat, state.mode); let bBase = baseTot - oBase;
-  let nq1 = bTeam===1 ? bBase : oBase; let nq2 = bTeam===2 ? bBase : oBase;
+  // استخدام حساب النقاط المستقل لدعم حالة الـ 17 بنط بشكل دقيق
+  let nq1 = abntsToNqat(p1raw, state.mode);
+  let nq2 = abntsToNqat(p2raw, state.mode);
+  
   let prj1 = calcProj(state.proj1), prj2 = calcProj(state.proj2);
   let tot1 = nq1 + prj1, tot2 = nq2 + prj2;
   let bTot = bTeam===1 ? tot1 : tot2; let oTot = bTeam===1 ? tot2 : tot1;
-  let allPts = baseTot + prj1 + prj2 + rahndPts;
+  let allPts = nq1 + nq2 + prj1 + prj2 + rahndPts;
   
   if (state.mode === 'hokm' && state.hokmMult !== 1) {
     rahndPts = 0;
@@ -767,7 +766,6 @@ function finishRound(t1g, t2g, verd, vc) {
 function updateSB() {
   let s1 = state.scores[0], s2 = state.scores[1];
   
-  // تغيير .textContent إلى .value لتناسب حقول الإدخال الجديدة
   document.getElementById('team1-total').value = s1; 
   document.getElementById('team2-total').value = s2;
   
@@ -853,5 +851,3 @@ updateStats();
 </script>
 </body>
 </html>
-
-```
