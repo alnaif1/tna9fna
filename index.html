@@ -723,29 +723,18 @@ function calculate() {
   let bTot = bTeam===1 ? tot1 : tot2; let oTot = bTeam===1 ? tot2 : tot1;
   let allPts = nq1 + nq2 + prj1 + prj2 + rahndPts;
   
-  let isBuyerWin = bTot > oTot;
-  let isTie = bTot === oTot;
-
-  // تطبيق قاعدة 80 و 82 في الحكم والدبل
-  if (state.mode === 'hokm' && isTie) {
-    let bRaw = bTeam===1 ? p1raw : p2raw;
-    let oRaw = bTeam===1 ? p2raw : p1raw;
-    if (bRaw < oRaw) {
-        isTie = false;
-        isBuyerWin = false; // تُعتبر خسارة للمشتري
-    }
-  }
-  
   if (state.mode === 'hokm' && state.hokmMult !== 1) {
     rahndPts = 0;
     let multStr = state.hokmMult === 2 ? 'دبل' : state.hokmMult === 3 ? 'ثري' : state.hokmMult === 4 ? 'فور' : 'قهوة';
     let p = state.hokmMult === 'qahwa' ? 152 : allPts * state.hokmMult;
-    
-    if (isBuyerWin) { 
+    if (bTot > oTot) { 
         if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح ${multStr} الحكم!`; vc = 'win'; 
     }
-    else if (isTie) {
+    else if (bTot === oTot) {
         // إذا تعادلوا في الحكم المدبل، اللي طلب الدبل يخسر
+        // x2 (دبل) طالع من الخصم
+        // x3 (ثري) طالع من المشتري
+        // x4 (فور) طالع من الخصم
         let doublerTeam = (state.hokmMult === 3) ? bTeam : oTeam;
         let winnerTeam = (doublerTeam === 1) ? 2 : 1;
         
@@ -761,10 +750,10 @@ function calculate() {
     let doublerTeam = state.double;
     let p = allPts * 2;
     
-    if (isBuyerWin) { 
+    if(bTot > oTot) { 
         if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح الدبل!`; vc = 'win'; 
     }
-    else if (isTie) { 
+    else if (bTot === oTot) { 
         // إذا تعادلوا بالصن المدبل، الفريق اللي دبل يخسر
         let winnerTeam = doublerTeam === 1 ? 2 : 1;
         if(winnerTeam === 1) t1g = p; else t2g = p;
@@ -775,12 +764,12 @@ function calculate() {
         if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر الدبل! كل النقاط لـ ${tName(oTeam)}`; vc = 'lose'; 
     }
   } else {
-    if (isBuyerWin) { 
+    if(bTot > oTot) { 
       t1g = tot1 + (bTeam===1 ? rahndPts : 0); t2g = tot2 + (bTeam===2 ? rahndPts : 0); rahndPts = 0; 
       verd = `✅ ${tName(bTeam)} يربح الجولة`; vc = 'win'; 
     }
-    else if (isTie) {
-      // تعادل عادي بدون دبل 
+    else if(bTot === oTot) {
+      // تعادل عادي بدون دبل (يتم تقاسم النقاط كما طلبت سابقاً)
       rahndPts = 0; 
       t1g = tot1; 
       t2g = tot2; 
