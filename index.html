@@ -42,16 +42,17 @@
   .container { max-width: 600px; margin: 0 auto; position: relative; z-index: 1; }
 
   /* Header */
-  .header { text-align: center; padding: 10px 0; }
+  .header { text-align: center; padding: 15px 0 10px; }
   .header h1 {
     font-family: 'Cairo', sans-serif;
-    font-size: clamp(1.2rem, 5vw, 1.6rem);
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
     font-weight: 900;
     color: var(--gold-light);
     text-shadow: 0 0 20px rgba(201,162,39,0.5), 2px 2px 0 rgba(0,0,0,0.4);
+    letter-spacing: 0px;
   }
-  .header .subtitle { color: rgba(255,255,255,0.6); font-size: 0.8rem; margin-top: 2px; }
-  .cards-decoration { display: flex; justify-content: center; gap: 6px; margin: 5px 0; font-size: 1.1rem; }
+  .header .subtitle { color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 2px; }
+  .cards-decoration { display: flex; justify-content: center; gap: 6px; margin: 5px 0; font-size: 1.2rem; }
 
   /* Scoreboard */
   .scoreboard { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; margin: 10px 0; align-items: center; }
@@ -59,7 +60,7 @@
     background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
     border: 1px solid #ffffff;
     border-radius: 12px;
-    padding: 10px 8px;
+    padding: 12px 8px;
     text-align: center;
     backdrop-filter: blur(10px);
     transition: all 0.3s;
@@ -70,29 +71,61 @@
     box-shadow: 0 0 15px rgba(201,162,39,0.15);
   }
   .team-name-input {
-    background: rgba(255,255,255,0.05); border: 1px solid #ffffff; border-radius: 6px;
-    color: #fff; font-family: 'Tajawal', sans-serif; font-size: 0.9rem; font-weight: 700;
-    text-align: center; width: 100%; padding: 4px; outline: none; margin-bottom: 4px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    color: #fff;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+    padding: 4px;
+    outline: none;
+    margin-bottom: 6px;
+    transition: border-color 0.2s;
   }
   .team-name-input:focus { border-color: var(--gold); }
   
+  /* Modified Team Score for Input */
   input.team-score {
-    background: transparent; border: none; outline: none; width: 100%; text-align: center;
-    font-family: 'Cairo', sans-serif; font-size: 2.5rem; font-weight: 900; line-height: 1;
-    color: var(--gold-light); text-shadow: 0 0 15px rgba(201,162,39,0.3);
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    text-align: center;
+    font-family: 'Cairo', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--gold-light);
+    text-shadow: 0 0 15px rgba(201,162,39,0.3);
   }
+  input.team-score::-webkit-outer-spin-button,
+  input.team-score::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
   .team-score-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
 
   .vs-divider { text-align: center; font-size: 1.1rem; font-weight: 900; color: rgba(255,255,255,0.3); font-family: 'Cairo', sans-serif; }
-  .target-badge { display: flex; flex-direction: column; align-items: center; margin-top: 2px; }
+  .target-badge { display: flex; flex-direction: column; align-items: center; margin-top: 5px; }
   .target-badge span { font-size: 0.6rem; color: rgba(255,255,255,0.4); }
   .target-badge strong { font-size: 0.9rem; color: var(--gold); }
 
   /* Winner Banner */
   .winner-banner {
-    display: none; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
-    color: #1a1a1a; text-align: center; padding: 8px; border-radius: 10px; font-size: 1rem;
-    font-weight: 900; font-family: 'Cairo', sans-serif; margin: 8px 0;
+    display: none;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    color: #1a1a1a;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    font-family: 'Cairo', sans-serif;
+    margin: 8px 0;
     animation: pulse 1s ease infinite alternate;
   }
   .winner-banner.show { display: block; }
@@ -101,107 +134,110 @@
   /* Panel */
   .panel {
     background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-    border: 1px solid #ffffff; border-radius: 14px; padding: 12px; margin: 10px 0; backdrop-filter: blur(5px);
+    border: 1px solid #ffffff;
+    border-radius: 14px;
+    padding: 14px;
+    margin: 10px 0;
+    backdrop-filter: blur(5px);
   }
+  .panel-title { font-family: 'Cairo', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--gold-light); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
 
-  /* Compact Grids */
-  .setup-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-  .mode-toggle, .buyer-select { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-  .double-toggle, .special-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 10px; }
-  .hokm-mult-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 10px; }
+  /* Toggles */
+  .mode-toggle, .double-toggle, .special-row { display: grid; gap: 6px; margin-bottom: 12px; }
+  .mode-toggle { grid-template-columns: 1fr 1fr; }
+  .double-toggle, .special-row { grid-template-columns: 1fr 1fr 1fr; }
+  .hokm-mult-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 12px; }
 
-  .btn-choice, .buyer-btn {
-    padding: 6px; border-radius: 8px; border: 1px solid #ffffff;
+  .btn-choice {
+    padding: 8px; border-radius: 8px; border: 1px solid #ffffff;
     background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.6);
     font-family: 'Tajawal', sans-serif; font-size: 0.85rem; font-weight: 700;
     cursor: pointer; transition: all 0.2s; text-align: center;
   }
-  .btn-hmul { padding: 6px 2px; font-size: 0.75rem; }
+  .btn-hmul { padding: 8px 2px; font-size: 0.8rem; }
   
-  .btn-choice.active, .buyer-btn.active { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
+  .btn-choice.active { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
   .btn-choice.active-double { background: #e74c3c; border-color: #c0392b; color: #fff; }
   .btn-choice.active-special { background: #ab47bc; border-color: #8e24aa; color: #fff; }
   .btn-choice.active-none { background: rgba(255,255,255,0.15); color: #fff; border-color: #ffffff; }
   .btn-choice.active-kaboot { background: #ff7043; border-color: #d84315; color: #fff; }
 
+  /* Buyer */
+  .buyer-select { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .buyer-btn {
+    padding: 8px; border-radius: 8px; border: 1px solid #ffffff;
+    background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.6); font-weight: 600; cursor: pointer; transition: all 0.2s;
+  }
+  .buyer-btn.active { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
+
   /* Points Input */
-  .points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
   .input-group label { font-size: 0.75rem; color: rgba(255,255,255,0.5); display: block; margin-bottom: 4px; }
   .points-input {
     background: rgba(255,255,255,0.02); border: 1px solid #ffffff; border-radius: 8px;
     color: #fff; font-family: 'Cairo', sans-serif; font-size: 1.2rem; font-weight: 700;
-    text-align: center; padding: 6px; width: 100%; outline: none; transition: border-color 0.2s;
+    text-align: center; padding: 8px; width: 100%; outline: none; transition: border-color 0.2s;
   }
   .points-input:focus { border-color: var(--gold); }
 
-  /* Details / Accordion Styles */
-  details { background: rgba(255,255,255,0.02); border: 1px solid #ffffff; border-radius: 10px; margin-bottom: 10px; padding: 0; overflow: hidden; transition: all 0.3s ease; }
-  summary { padding: 10px; font-family: 'Cairo', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--gold-light); cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none; user-select: none; }
-  summary::-webkit-details-marker { display: none; }
-  summary::after { content: '▼'; font-size: 0.7rem; color: #fff; transition: transform 0.3s; }
-  details[open] summary::after { transform: rotate(180deg); }
-  details[open] summary { border-bottom: 1px dashed rgba(255,255,255,0.2); margin-bottom: 10px; }
-  .details-content { padding: 0 10px 10px 10px; }
-
   /* Projects */
-  .projects-section { margin-bottom: 10px; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
-  .projects-section label { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 6px; font-weight: 600; }
+  .projects-section { margin-bottom: 12px; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; border: 1px solid #ffffff; }
+  .projects-section label { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-bottom: 8px; font-weight: 600; }
   .projects-wrapper { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
   .proj-pill {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     background: rgba(255,255,255,0.03); border: 1px solid #ffffff;
-    border-radius: 10px; padding: 6px 4px; transition: all 0.2s;
+    border-radius: 12px; padding: 8px 4px; transition: all 0.2s; text-align: center;
   }
   .proj-pill.active { border-color: #a8e063; background: rgba(168,224,99,0.08); }
   .proj-info { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
-  .proj-name { font-size: 0.75rem; font-weight: 800; color: rgba(255,255,255,0.7); }
+  .proj-name { font-size: 0.8rem; font-weight: 800; color: rgba(255,255,255,0.7); }
   .proj-pill.active .proj-name { color: #fff; }
-  .proj-pts { font-size: 0.6rem; color: rgba(255,255,255,0.4); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 4px; }
+  .proj-pts { font-size: 0.65rem; color: rgba(255,255,255,0.4); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 4px; }
   .proj-pill.active .proj-pts { color: #a8e063; }
   
-  .stepper-mini { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 2px; }
+  .stepper-mini { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 3px; }
   .btn-mini {
-    width: 20px; height: 20px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1);
-    color: #fff; font-size: 0.9rem; font-weight: 900; line-height: 1; cursor: pointer;
+    width: 22px; height: 22px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1);
+    color: #fff; font-size: 1rem; font-weight: 900; line-height: 1; cursor: pointer;
     display: flex; align-items: center; justify-content: center; transition: 0.1s;
   }
   .btn-mini:active { transform: scale(0.9); }
   .btn-mini.minus { color: #ff8a80; }
   .btn-mini.plus { color: #a8e063; }
-  .stepper-val { font-family: 'Cairo', sans-serif; font-size: 0.8rem; font-weight: 700; color: #a8e063; min-width: 14px; text-align: center; }
+  .stepper-val { font-family: 'Cairo', sans-serif; font-size: 0.85rem; font-weight: 700; color: #a8e063; min-width: 14px; text-align: center; }
   .stepper-val.zero { color: #fff; } 
   
   /* Action Buttons */
   .action-btn {
-    width: 100%; padding: 10px; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 0.95rem;
-    font-weight: 800; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 6px; border: none;
+    width: 100%; padding: 12px; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 1rem;
+    font-weight: 800; cursor: pointer; transition: all 0.2s; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 6px; border: none;
   }
-  .calc-btn { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: #1a1a1a; margin-bottom: 10px; font-size: 1.1rem; padding: 12px;}
+  .calc-btn { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: #1a1a1a; }
   .calc-btn:active { transform: scale(0.98); }
-  
-  /* Two columns for undo and reset */
-  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .undo-btn { background: rgba(79,195,247,0.08); border: 1px solid #ffffff; color: #ffffff; }
   .undo-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-  .reset-btn { background: rgba(192,57,43,0.08); border: 1px solid #ffffff; color: #ffffff;}
+  .reset-btn { background: rgba(192,57,43,0.08); border: 1px solid #ffffff; color: #ffffff; font-size: 0.9rem; }
 
   /* Result Box */
   .result-box { display: none; background: rgba(255,255,255,0.02); border: 1px solid #ffffff; border-radius: 10px; padding: 12px; margin-top: 10px; animation: fadeIn 0.3s ease; }
   .result-box.show { display: block; }
-  .res-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; }
+  .res-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ffffff; font-size: 0.85rem; }
   .res-row:last-child { border: none; }
   .res-lbl { color: rgba(255,255,255,0.5); }
   .res-val { font-weight: 700; color: var(--gold-light); }
   .res-val.win { color: #a8e063; }
   .res-val.lose { color: #ff8a80; }
-  .res-verdict { margin-top: 6px; padding-top: 6px; font-size: 0.9rem; font-weight: 900; border-top: 1px dashed #ffffff; text-align: center; }
+  .res-verdict { margin-top: 8px; padding-top: 8px; font-size: 0.95rem; font-weight: 900; border-top: 1px dashed #ffffff; }
 
   /* History Table */
-  .clear-btn { padding: 4px 10px; border-radius: 6px; background: rgba(192,57,43,0.12); border: 1px solid #ffffff; color: #ff6b6b; font-size: 0.75rem; cursor: pointer; float: left;}
-  .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #fff; margin-top: 5px; } 
-  table { width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: center; }
-  th { background: rgba(201,162,39,0.12); color: var(--gold-light); padding: 6px 4px; border: 1px solid #fff; } 
-  td { padding: 6px 4px; border: 1px solid #fff; color: rgba(255,255,255,0.8); } 
+  .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .history-title { font-family: 'Cairo', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--gold-light); }
+  .clear-btn { padding: 4px 10px; border-radius: 6px; background: rgba(192,57,43,0.12); border: 1px solid #ffffff; color: #ff6b6b; font-size: 0.75rem; cursor: pointer; }
+  .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #fff; } 
+  table { width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: center; border: 1px solid #fff; }
+  th { background: rgba(201,162,39,0.12); color: var(--gold-light); padding: 8px 4px; border: 1px solid #fff; } 
+  td { padding: 8px 4px; border: 1px solid #fff; color: rgba(255,255,255,0.8); } 
   .badge { padding: 2px 6px; border-radius: 12px; font-size: 0.65rem; font-weight: 700; border: 1px solid; }
   .b-sun { background: rgba(255,193,7,0.1); color: #ffc107; border-color: #ffffff; }
   .b-hokm { background: rgba(33,150,243,0.1); color: #64b5f6; border-color: #ffffff; }
@@ -248,28 +284,22 @@
 
   <div class="winner-banner" id="winner-banner">🏆 <span id="winner-text"></span></div>
 
-  <!-- لوحة الجولة -->
   <div class="panel">
-    
-    <div class="setup-row">
-      <div>
-        <label style="font-size:0.7rem; color:#aaa; margin-bottom:4px; display:block;">🃏 نوع اللعب:</label>
-        <div class="mode-toggle">
-          <button class="btn-choice active" id="btn-sun" onclick="setMode('sun')">🤫 صن</button>
-          <button class="btn-choice" id="btn-hokm" onclick="setMode('hokm')">👑 حكم</button>
-        </div>
-      </div>
-      <div>
-        <label style="font-size:0.7rem; color:#aaa; margin-bottom:4px; display:block;">👤 المشتري:</label>
-        <div class="buyer-select">
-          <button class="buyer-btn active" id="buyer-1" onclick="setBuyer(1)"><span id="lbl-b1">لنا</span></button>
-          <button class="buyer-btn" id="buyer-2" onclick="setBuyer(2)"><span id="lbl-b2">لهم</span></button>
-        </div>
-      </div>
+    <div class="panel-title">🃏 إعداد الجولة</div>
+
+    <div class="mode-toggle">
+      <button class="btn-choice active" id="btn-sun" onclick="setMode('sun')">🤫 صن</button>
+      <button class="btn-choice" id="btn-hokm" onclick="setMode('hokm')">👑 حكم</button>
+    </div>
+
+    <label style="font-size:0.75rem; color:#aaa; margin-bottom:4px; display:block;">المشتري:</label>
+    <div class="buyer-select">
+      <button class="buyer-btn active" id="buyer-1" onclick="setBuyer(1)"><span id="lbl-b1">لنا</span></button>
+      <button class="buyer-btn" id="buyer-2" onclick="setBuyer(2)"><span id="lbl-b2">لهم</span></button>
     </div>
 
     <div id="sun-double-container">
-      <label style="font-size:0.7rem; color:#aaa; margin-bottom:4px; display:block;">حالة الدبل (صن):</label>
+      <label style="font-size:0.75rem; color:#aaa; margin-bottom:4px; display:block;">حالة الدبل (صن):</label>
       <div class="double-toggle">
         <button class="btn-choice active" id="btn-dbl-0" onclick="setDouble(0)">بدون دبل</button>
         <button class="btn-choice" id="btn-dbl-1" onclick="setDouble(1)">دبل <span id="lbl-d1">(لنا)</span></button>
@@ -278,22 +308,13 @@
     </div>
 
     <div id="hokm-double-container" style="display:none;">
-      <label style="font-size:0.7rem; color:#aaa; margin-bottom:4px; display:block;">مضاعفة الحكم:</label>
+      <label style="font-size:0.75rem; color:#aaa; margin-bottom:4px; display:block;">مضاعفة الحكم:</label>
       <div class="hokm-mult-grid">
         <button class="btn-choice btn-hmul active" id="btn-hmul-1" onclick="setHokmMult(1)">بدون</button>
         <button class="btn-choice btn-hmul" id="btn-hmul-2" onclick="setHokmMult(2)">دبل</button>
         <button class="btn-choice btn-hmul" id="btn-hmul-3" onclick="setHokmMult(3)">ثري</button>
         <button class="btn-choice btn-hmul" id="btn-hmul-4" onclick="setHokmMult(4)">فور</button>
         <button class="btn-choice btn-hmul" id="btn-hmul-q" onclick="setHokmMult('qahwa')">قهوة</button>
-      </div>
-      
-      <!-- إضافة من ضاعف في الحكم -->
-      <div id="hokm-doubler-container" style="display:none; margin-top: 8px;">
-        <label style="font-size:0.7rem; color:#aaa; margin-bottom:4px; display:block;">من ضاعف؟ (أعطى الدبل)</label>
-        <div class="buyer-select">
-          <button class="buyer-btn active" id="hokm-dbl-1" onclick="setHokmDoubler(1)"><span id="lbl-hd1">لنا</span></button>
-          <button class="buyer-btn" id="hokm-dbl-2" onclick="setHokmDoubler(2)"><span id="lbl-hd2">لهم</span></button>
-        </div>
       </div>
     </div>
 
@@ -308,69 +329,57 @@
       </div>
     </div>
 
-    <!-- تم رفع زر الحساب ليكون هنا -->
     <button class="action-btn calc-btn" onclick="calculate()">⚡ احسب الجولة</button>
 
-    <details>
-      <summary>المشاريع والحالات الخاصة (اختياري)</summary>
-      <div class="details-content">
-        <div class="projects-section">
-          <label id="proj1-label">مشاريع لنا:</label>
-          <div class="projects-wrapper" id="proj1-grid"></div>
-        </div>
-        <div class="projects-section">
-          <label id="proj2-label">مشاريع لهم:</label>
-          <div class="projects-wrapper" id="proj2-grid"></div>
-        </div>
-
-        <label style="font-size:0.7rem; color:#aaa; margin-bottom:4px; margin-top:8px; display:block;">حالات خاصة:</label>
-        <div class="special-row">
-          <button class="btn-choice" id="btn-sp-kaboot" onclick="setSpecial('kaboot')">💀 كبوت</button>
-          <button class="btn-choice active-none" id="btn-sp-none" onclick="setSpecial('none')">❌ لا شيء</button>
-          <button class="btn-choice" id="btn-sp-qahwa" onclick="setSpecial('qahwa')">☕ قهوة</button>
-        </div>
-      </div>
-    </details>
-
-    <div class="btn-row">
-      <button class="action-btn undo-btn" id="undo-btn" onclick="triggerConfirmation('undo')" disabled>↩️ تراجع خطوة</button>
-      <button class="action-btn reset-btn" onclick="triggerConfirmation('reset')">🔄 تصفير اللعبة</button>
+    <div class="projects-section">
+      <label id="proj1-label">مشاريع لنا:</label>
+      <div class="projects-wrapper" id="proj1-grid"></div>
     </div>
+    <div class="projects-section">
+      <label id="proj2-label">مشاريع لهم:</label>
+      <div class="projects-wrapper" id="proj2-grid"></div>
+    </div>
+
+    <label style="font-size:0.75rem; color:#aaa; margin-bottom:4px; display:block;">حالات خاصة (تُحسب تلقائياً عند الضغط على احسب):</label>
+    <div class="special-row">
+      <button class="btn-choice" id="btn-sp-kaboot" onclick="setSpecial('kaboot')">💀 كبوت</button>
+      <button class="btn-choice active-none" id="btn-sp-none" onclick="setSpecial('none')">❌ لا شيء</button>
+      <button class="btn-choice" id="btn-sp-qahwa" onclick="setSpecial('qahwa')">☕ قهوة</button>
+    </div>
+
+    <button class="action-btn undo-btn" id="undo-btn" onclick="triggerConfirmation('undo')" disabled>↩️ تراجع عن آخر حسبة</button>
+    <button class="action-btn reset-btn" onclick="triggerConfirmation('reset')">🔄 إعادة اللعبة للصفر</button>
 
     <div class="result-box" id="result-box"></div>
   </div>
 
-  <details class="panel" style="padding:0; margin-top:0;">
-    <summary style="padding:12px;">📈 إحصائيات الصكة</summary>
-    <div class="details-content">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.8rem; color: #fff;">
-          <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; border:1px solid #ffffff;">
-              <div style="color: var(--gold-light); font-weight: bold; margin-bottom: 5px;" id="stat-name1">لنا</div>
-              <div>- صن: <span id="stat-t1-sun">0</span> مرات</div>
-              <div>- حكم: <span id="stat-t1-hokm">0</span> مرات</div>
-              <div style="margin-top:5px; border-top:1px solid #444; padding-top:5px;">مشاريع: <span id="stat-proj1">0</span></div>
-          </div>
-          <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; border:1px solid #ffffff;">
-              <div style="color: var(--gold-light); font-weight: bold; margin-bottom: 5px;" id="stat-name2">لهم</div>
-              <div>- صن: <span id="stat-t2-sun">0</span> مرات</div>
-              <div>- حكم: <span id="stat-t2-hokm">0</span> مرات</div>
-              <div style="margin-top:5px; border-top:1px solid #444; padding-top:5px;">مشاريع: <span id="stat-proj2">0</span></div>
-          </div>
-      </div>
+  <div class="panel">
+    <div class="panel-title">📈 إحصائيات الصكة</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; color: #fff;">
+        <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border:1px solid #ffffff;">
+            <div style="color: var(--gold-light); font-weight: bold; margin-bottom: 5px;" id="stat-name1">لنا</div>
+            <div>- الصن: <span id="stat-t1-sun">0</span> مشتروات</div>
+            <div>- الحكم: <span id="stat-t1-hokm">0</span> مشتروات</div>
+            <div style="margin-top:5px; border-top:1px solid #444; pt:5px;">مشاريع: <span id="stat-proj1">0</span> مشروع</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; border:1px solid #ffffff;">
+            <div style="color: var(--gold-light); font-weight: bold; margin-bottom: 5px;" id="stat-name2">لهم</div>
+            <div>- الصن: <span id="stat-t2-sun">0</span> مشتروات</div>
+            <div>- الحكم: <span id="stat-t2-hokm">0</span> مشتروات</div>
+            <div style="margin-top:5px; border-top:1px solid #444; pt:5px;">مشاريع: <span id="stat-proj2">0</span> مشروع</div>
+        </div>
     </div>
-  </details>
+  </div>
 
-  <details class="panel" style="padding:0; margin-top:0;">
-    <summary style="padding:12px;">
-      <span>📊 سجل الجولات</span>
-      <button class="clear-btn" onclick="event.stopPropagation(); clearHistory()">مسح</button>
-    </summary>
-    <div class="details-content">
-      <div class="table-wrap" id="history-container">
-        <div style="text-align:center; padding:15px; color:#666; font-size:0.8rem;">لا توجد جولات</div>
-      </div>
+  <div class="panel">
+    <div class="history-header">
+      <div class="history-title">📊 سجل الجولات</div>
+      <button class="clear-btn" onclick="clearHistory()">مسح</button>
     </div>
-  </details>
+    <div class="table-wrap" id="history-container">
+      <div style="text-align:center; padding:15px; color:#666; font-size:0.8rem;">لا توجد جولات</div>
+    </div>
+  </div>
 
 </div>
 <div class="toast" id="toast"></div>
@@ -389,7 +398,7 @@
 
 <div id="confirm-modal" class="modal-overlay">
   <div class="modal-content">
-    <h2 id="confirm-msg" style="color:var(--gold-light); margin-bottom:20px; font-size:1.2rem;"></h2>
+    <h2 id="confirm-msg" style="color:var(--gold-light); margin-bottom:20px;"></h2>
     <div style="display: grid; gap: 10px;">
       <button class="action-btn calc-btn" onclick="confirmAction()">نعم</button>
       <button class="action-btn reset-btn" onclick="closeConfirmModal()">إلغاء</button>
@@ -399,7 +408,7 @@
 
 <script>
 let state = {
-  mode: 'sun', buyer: 1, double: 0, hokmMult: 1, hokmDoubler: 0, tieMode: 'split', special: 'none',
+  mode: 'sun', buyer: 1, double: 0, hokmMult: 1, tieMode: 'split', special: 'none',
   proj1: new Map(), proj2: new Map(),
   scores: [0, 0], history: [], winAnnounced: false
 };
@@ -407,6 +416,7 @@ let lastSnapshot = null;
 let rahndPts = 0; 
 let pendingAction = null;
 
+// ================= SAVE & LOAD =================
 function saveState() {
   let stateToSave = {
     ...state,
@@ -423,22 +433,33 @@ function loadState() {
     state = {
       ...parsed,
       proj1: new Map(parsed.proj1),
-      proj2: new Map(parsed.proj2),
-      hokmDoubler: parsed.hokmDoubler || 0
+      proj2: new Map(parsed.proj2)
     };
-    updateSB(); renderHist(); renderProj(); updateStats();
-    setMode(state.mode); setBuyer(state.buyer); setDouble(state.double); setHokmMult(state.hokmMult); setHokmDoubler(state.hokmDoubler); setSpecial(state.special);
+    updateSB();
+    renderHist();
+    renderProj();
+    updateStats();
+    setMode(state.mode);
+    setBuyer(state.buyer);
+    setDouble(state.double);
+    setHokmMult(state.hokmMult);
+    setSpecial(state.special);
   }
 }
 
+// ================= MANUAL SCORE UPDATE =================
 function manualScoreUpdate(team) {
   let inp = document.getElementById('team' + team + '-total');
   let vStr = inp.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
   let val = parseInt(vStr, 10);
   if (isNaN(val)) val = 0;
-  state.scores[team - 1] = val; updateSB(); saveState();
+  
+  state.scores[team - 1] = val;
+  updateSB();
+  saveState();
 }
 
+// ================= CONFIRMATION LOGIC =================
 function triggerConfirmation(action) {
   pendingAction = action;
   let msg = action === 'reset' ? 'هل أنت متأكد من تصفير اللعبة؟' : 'هل أنت متأكد من التراجع عن آخر حسبة؟';
@@ -446,8 +467,13 @@ function triggerConfirmation(action) {
   document.getElementById('confirm-modal').classList.add('show');
 }
 function closeConfirmModal() { document.getElementById('confirm-modal').classList.remove('show'); }
-function confirmAction() { closeConfirmModal(); if(pendingAction === 'reset') confirmReset(true); else if(pendingAction === 'undo') proceedUndo(); }
+function confirmAction() {
+  closeConfirmModal();
+  if(pendingAction === 'reset') confirmReset(true);
+  else if(pendingAction === 'undo') proceedUndo();
+}
 
+// ================= AUDIO & FIREWORKS =================
 let currentWinAudio = new Audio('https://github.com/alnaif1/shrbkhmp1/raw/refs/heads/main/winmp3.mp3');
 function playWinSound() { try { currentWinAudio.currentTime = 0; currentWinAudio.play(); } catch(e){} }
 function stopWinSound() { try { currentWinAudio.pause(); currentWinAudio.currentTime = 0; } catch(e){} }
@@ -489,24 +515,40 @@ function updateFireworks() {
     ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
     if (p.life <= 0) fwParticles.splice(i, 1);
   }
-  ctx.globalAlpha = 1; fwAnimationId = requestAnimationFrame(updateFireworks);
+  ctx.globalAlpha = 1;
+  fwAnimationId = requestAnimationFrame(updateFireworks);
 }
 
+// ================= MODAL LOGIC =================
 function showWinModal(wn, ws) {
   document.getElementById('win-modal-title').textContent = `${wn} يفوز بـ ${ws} بنط!`;
-  document.getElementById('win-modal').classList.add('show'); startFireworks(); playWinSound();
+  document.getElementById('win-modal').classList.add('show');
+  startFireworks(); playWinSound();
 }
-function closeWinModal() { document.getElementById('win-modal').classList.remove('show'); stopFireworks(); stopWinSound(); }
+function closeWinModal() {
+  document.getElementById('win-modal').classList.remove('show');
+  stopFireworks(); stopWinSound();
+}
 function restartFromWin() { closeWinModal(); confirmReset(true); }
 
+// ================= APP LOGIC =================
 function getProjects() {
   return state.mode === 'sun' 
     ? [{id:'sara',n:'سرى',p:4,m:4}, {id:'50',n:'50',p:10,m:4}, {id:'100',n:'100',p:20,m:2}, {id:'400',n:'400',p:40,m:1}]
     : [{id:'sara',n:'سرى',p:2,m:4}, {id:'baloot',n:'بلوت',p:2,m:1}, {id:'50',n:'50',p:5,m:4}, {id:'100',n:'100',p:10,m:2}];
 }
 
-function getProjCount(map) { let count = 0; map.forEach(val => count += val); return count; }
-function calcProj(map) { let total = 0; getProjects().forEach(p => { total += p.p * (map.get(p.id) || 0); }); return total; }
+function getProjCount(map) {
+  let count = 0;
+  map.forEach(val => count += val);
+  return count;
+}
+
+function calcProj(map) {
+  let total = 0;
+  getProjects().forEach(p => { total += p.p * (map.get(p.id) || 0); });
+  return total;
+}
 
 function renderProj() {
   [1, 2].forEach(team => {
@@ -526,64 +568,65 @@ function renderProj() {
 }
 
 function stepProj(team, id, delta, max) {
-  let m = state['proj'+team], cur = m.get(id) || 0; let next = Math.min(Math.max(cur + delta, 0), max);
-  if(next === 0) m.delete(id); else m.set(id, next); renderProj(); saveState();
+  let m = state['proj'+team], cur = m.get(id) || 0;
+  let next = Math.min(Math.max(cur + delta, 0), max);
+  if(next === 0) m.delete(id); else m.set(id, next);
+  renderProj();
+  saveState();
 }
 
 function tName(n) { return document.getElementById('team'+n+'-name').value.trim() || 'فريق '+n; }
 
 function updateLabels() {
-  document.getElementById('lbl-b1').textContent = tName(1); document.getElementById('lbl-b2').textContent = tName(2);
-  document.getElementById('lbl-d1').textContent = '(' + tName(1) + ')'; document.getElementById('lbl-d2').textContent = '(' + tName(2) + ')';
-  document.getElementById('lbl-hd1').textContent = tName(1); document.getElementById('lbl-hd2').textContent = tName(2);
-  document.getElementById('pts1-label').textContent = 'أبناط ' + tName(1) + ':'; document.getElementById('pts2-label').textContent = 'أبناط ' + tName(2) + ':';
-  document.getElementById('proj1-label').textContent = 'مشاريع ' + tName(1) + ':'; document.getElementById('proj2-label').textContent = 'مشاريع ' + tName(2) + ':';
-  document.getElementById('stat-name1').textContent = tName(1); document.getElementById('stat-name2').textContent = tName(2);
+  document.getElementById('lbl-b1').textContent = tName(1);
+  document.getElementById('lbl-b2').textContent = tName(2);
+  document.getElementById('lbl-d1').textContent = '(' + tName(1) + ')';
+  document.getElementById('lbl-d2').textContent = '(' + tName(2) + ')';
+  document.getElementById('pts1-label').textContent = 'أبناط ' + tName(1) + ':';
+  document.getElementById('pts2-label').textContent = 'أبناط ' + tName(2) + ':';
+  document.getElementById('proj1-label').textContent = 'مشاريع ' + tName(1) + ':';
+  document.getElementById('proj2-label').textContent = 'مشاريع ' + tName(2) + ':';
+  document.getElementById('stat-name1').textContent = tName(1);
+  document.getElementById('stat-name2').textContent = tName(2);
 }
+
 ['team1-name','team2-name'].forEach(id => document.getElementById(id).addEventListener('input', () => { updateLabels(); saveState(); }));
 
 function setMode(m) {
   state.mode = m; state.proj1.clear(); state.proj2.clear();
-  document.getElementById('btn-sun').classList.toggle('active', m==='sun'); document.getElementById('btn-hokm').classList.toggle('active', m==='hokm');
+  document.getElementById('btn-sun').classList.toggle('active', m==='sun');
+  document.getElementById('btn-hokm').classList.toggle('active', m==='hokm');
+  
   document.getElementById('sun-double-container').style.display = m === 'sun' ? 'block' : 'none';
   document.getElementById('hokm-double-container').style.display = m === 'hokm' ? 'block' : 'none';
-  document.getElementById('pts1').value = ''; document.getElementById('pts2').value = ''; renderProj(); saveState();
+
+  document.getElementById('pts1').value = ''; document.getElementById('pts2').value = '';
+  renderProj();
+  saveState();
 }
 
 function setBuyer(n) {
-  state.buyer = n; document.getElementById('buyer-1').classList.toggle('active', n===1); document.getElementById('buyer-2').classList.toggle('active', n===2);
-  
-  // تحديث تلقائي للمدبل في الحكم ليكون الخصم إذا لم يتم اختياره بعد
-  if(state.hokmMult > 1 && state.hokmDoubler === 0) {
-    setHokmDoubler(n === 1 ? 2 : 1);
-  }
+  state.buyer = n;
+  document.getElementById('buyer-1').classList.toggle('active', n===1);
+  document.getElementById('buyer-2').classList.toggle('active', n===2);
   saveState();
 }
 
 function setDouble(n) {
-  state.double = n; [0,1,2].forEach(i => document.getElementById('btn-dbl-'+i).classList.remove('active', 'active-double'));
-  document.getElementById('btn-dbl-'+n).classList.add(n === 0 ? 'active' : 'active-double'); saveState();
-}
-
-function setHokmMult(val) {
-  state.hokmMult = val; ['1','2','3','4','q'].forEach(v => document.getElementById('btn-hmul-'+v).classList.remove('active', 'active-double'));
-  document.getElementById('btn-hmul-' + (val === 'qahwa' ? 'q' : val)).classList.add(val === 1 ? 'active' : 'active-double'); 
-  
-  let doublerContainer = document.getElementById('hokm-doubler-container');
-  if (val === 2 || val === 3 || val === 4) {
-      doublerContainer.style.display = 'block';
-      if(state.hokmDoubler === 0) setHokmDoubler(state.buyer === 1 ? 2 : 1);
-  } else {
-      doublerContainer.style.display = 'none';
-  }
+  state.double = n;
+  [0,1,2].forEach(i => document.getElementById('btn-dbl-'+i).classList.remove('active', 'active-double'));
+  let btn = document.getElementById('btn-dbl-'+n);
+  btn.classList.add(n === 0 ? 'active' : 'active-double');
   saveState();
 }
 
-function setHokmDoubler(team) {
-  if(team === 0) return;
-  state.hokmDoubler = team;
-  document.getElementById('hokm-dbl-1').classList.toggle('active', team === 1);
-  document.getElementById('hokm-dbl-2').classList.toggle('active', team === 2);
+function setHokmMult(val) {
+  state.hokmMult = val;
+  ['1','2','3','4','q'].forEach(v => {
+    document.getElementById('btn-hmul-'+v).classList.remove('active', 'active-double');
+  });
+  let btnId = 'btn-hmul-' + (val === 'qahwa' ? 'q' : val);
+  document.getElementById(btnId).classList.add(val === 1 ? 'active' : 'active-double');
   saveState();
 }
 
@@ -597,7 +640,10 @@ function setSpecial(val) {
   else if (val === 'qahwa') document.getElementById('btn-sp-qahwa').classList.add('active-special');
   else document.getElementById('btn-sp-none').classList.add('active-none');
   
-  if(val !== 'none') { document.getElementById('pts1').value = ''; document.getElementById('pts2').value = ''; }
+  if(val !== 'none') {
+    document.getElementById('pts1').value = ''; 
+    document.getElementById('pts2').value = '';
+  }
   saveState();
 }
 
@@ -606,21 +652,33 @@ function syncPts(changed) {
   const max = state.mode === 'sun' ? 130 : 162;
   let inp = document.getElementById('pts'+changed), other = document.getElementById('pts'+(changed===1?2:1));
   let v = parseInt(inp.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)), 10);
-  if(!isNaN(v)) { if(v > max) v = max; if(v < 0) v = 0; inp.value = v; other.value = max - v; } else { other.value = ''; }
+  if(!isNaN(v)) {
+    if(v > max) v = max; if(v < 0) v = 0;
+    inp.value = v; other.value = max - v;
+  } else { other.value = ''; }
 }
 
 function snap() {
-  lastSnapshot = { s: [...state.scores], m: state.mode, b: state.buyer, d: state.double, hm: state.hokmMult, hd: state.hokmDoubler, tm: state.tieMode, sp: state.special, p1: new Map(state.proj1), p2: new Map(state.proj2), h: [...state.history], r: rahndPts };
+  lastSnapshot = {
+    s: [...state.scores], m: state.mode, b: state.buyer, d: state.double, hm: state.hokmMult, tm: state.tieMode, sp: state.special,
+    p1: new Map(state.proj1), p2: new Map(state.proj2), h: [...state.history], r: rahndPts
+  };
   document.getElementById('undo-btn').disabled = false;
 }
 
 function proceedUndo() {
     if(!lastSnapshot) return;
-    state.scores = [...lastSnapshot.s]; state.mode = lastSnapshot.m; state.buyer = lastSnapshot.b; state.double = lastSnapshot.d; state.hokmMult = lastSnapshot.hm; state.hokmDoubler = lastSnapshot.hd; state.tieMode = lastSnapshot.tm; state.special = lastSnapshot.sp;
-    state.proj1 = new Map(lastSnapshot.p1); state.proj2 = new Map(lastSnapshot.p2); state.history = [...lastSnapshot.h]; rahndPts = lastSnapshot.r;
-    setMode(state.mode); setBuyer(state.buyer); setDouble(state.double); setHokmMult(state.hokmMult); if(state.hokmDoubler) setHokmDoubler(state.hokmDoubler); setSpecial(state.special);
-    updateSB(); renderHist(); updateStats(); document.getElementById('undo-btn').disabled = true; document.getElementById('result-box').classList.remove('show');
-    toast('تم التراجع بنجاح'); saveState();
+    state.scores = [...lastSnapshot.s]; state.mode = lastSnapshot.m; state.buyer = lastSnapshot.b; 
+    state.double = lastSnapshot.d; state.hokmMult = lastSnapshot.hm; state.tieMode = lastSnapshot.tm; state.special = lastSnapshot.sp;
+    state.proj1 = new Map(lastSnapshot.p1); state.proj2 = new Map(lastSnapshot.p2);
+    state.history = [...lastSnapshot.h]; rahndPts = lastSnapshot.r;
+    
+    setMode(state.mode); setBuyer(state.buyer); setDouble(state.double); setHokmMult(state.hokmMult); setSpecial(state.special);
+    updateSB(); renderHist(); updateStats();
+    document.getElementById('undo-btn').disabled = true;
+    document.getElementById('result-box').classList.remove('show');
+    toast('تم التراجع بنجاح');
+    saveState();
 }
 
 function abntsToNqat(abnts, mode) {
@@ -630,52 +688,108 @@ function abntsToNqat(abnts, mode) {
 
 function calculate() {
   snap();
-  let bTeam = state.buyer, oTeam = bTeam===1?2:1, t1g = 0, t2g = 0, verd = '', vc = '';
+  let bTeam = state.buyer, oTeam = bTeam===1?2:1;
+  let t1g = 0, t2g = 0, verd = '', vc = '';
 
   if (state.special === 'qahwa') {
-    if(bTeam===1) t1g = 152; else t2g = 152; verd = `☕ فوز فوري بالقهوة لـ ${tName(bTeam)}`; finishRound(t1g, t2g, verd, 'win'); return;
+    if(bTeam===1) t1g = 152; else t2g = 152;
+    verd = `☕ فوز فوري بالقهوة لـ ${tName(bTeam)}`;
+    finishRound(t1g, t2g, verd, 'win'); return;
   }
   if (state.special === 'kaboot') {
-    let kbts = state.mode==='sun' ? 44 : 25; let allP = kbts + calcProj(state.proj1) + calcProj(state.proj2) + rahndPts; rahndPts = 0; let p = allP;
+    let kbts = state.mode==='sun' ? 44 : 25;
+    let allP = kbts + calcProj(state.proj1) + calcProj(state.proj2) + rahndPts;
+    rahndPts = 0; let p = allP;
     if (state.mode === 'sun' && state.double > 0) p = allP * 2;
     if (state.mode === 'hokm' && state.hokmMult !== 1) p = state.hokmMult === 'qahwa' ? 152 : allP * state.hokmMult;
     if(bTeam===1) t1g = p; else t2g = p;
     let extraStr = (state.mode === 'sun' && state.double > 0) ? ' (مدبل)' : (state.mode === 'hokm' && state.hokmMult !== 1) ? ` (مضاعف)` : '';
-    verd = `💀 كبوت لـ ${tName(bTeam)}${extraStr}`; finishRound(t1g, t2g, verd, 'win'); return;
+    verd = `💀 كبوت لـ ${tName(bTeam)}${extraStr}`;
+    finishRound(t1g, t2g, verd, 'win'); return;
   }
 
-  let p1raw = parseInt(document.getElementById('pts1').value, 10), p2raw = parseInt(document.getElementById('pts2').value, 10);
+  let p1raw = parseInt(document.getElementById('pts1').value, 10);
+  let p2raw = parseInt(document.getElementById('pts2').value, 10);
   let req = state.mode === 'sun' ? 130 : 162;
-  if(isNaN(p1raw) || isNaN(p2raw) || p1raw < 0 || p2raw < 0 || Math.abs((p1raw+p2raw)-req) > 4) return toast(`⚠️ تأكد من الأبناط (المجموع يجب أن يكون ${req})`);
+  if(isNaN(p1raw) || isNaN(p2raw) || p1raw < 0 || p2raw < 0 || Math.abs((p1raw+p2raw)-req) > 4) {
+    return toast(`⚠️ تأكد من الأبناط (المجموع يجب أن يكون ${req})`);
+  }
 
-  let nq1 = abntsToNqat(p1raw, state.mode), nq2 = abntsToNqat(p2raw, state.mode);
+  let nq1 = abntsToNqat(p1raw, state.mode);
+  let nq2 = abntsToNqat(p2raw, state.mode);
+  
   let prj1 = calcProj(state.proj1), prj2 = calcProj(state.proj2);
   let tot1 = nq1 + prj1, tot2 = nq2 + prj2;
   let bTot = bTeam===1 ? tot1 : tot2; let oTot = bTeam===1 ? tot2 : tot1;
   let allPts = nq1 + nq2 + prj1 + prj2 + rahndPts;
   
+  let isBuyerWin = bTot > oTot;
+  let isTie = bTot === oTot;
+
+  // تطبيق قاعدة 80 و 82 في الحكم والدبل
+  if (state.mode === 'hokm' && isTie) {
+    let bRaw = bTeam===1 ? p1raw : p2raw;
+    let oRaw = bTeam===1 ? p2raw : p1raw;
+    if (bRaw < oRaw) {
+        isTie = false;
+        isBuyerWin = false; // تُعتبر خسارة للمشتري
+    }
+  }
+  
   if (state.mode === 'hokm' && state.hokmMult !== 1) {
-    rahndPts = 0; let multStr = state.hokmMult === 2 ? 'دبل' : state.hokmMult === 3 ? 'ثري' : state.hokmMult === 4 ? 'فور' : 'قهوة';
+    rahndPts = 0;
+    let multStr = state.hokmMult === 2 ? 'دبل' : state.hokmMult === 3 ? 'ثري' : state.hokmMult === 4 ? 'فور' : 'قهوة';
     let p = state.hokmMult === 'qahwa' ? 152 : allPts * state.hokmMult;
-    if (bTot > oTot) { if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح ${multStr} الحكم!`; vc = 'win'; }
-    else if (bTot === oTot) {
-        // الفريق اللي دبل في الحكم يخسر الدبل إذا تعادل
-        let doublerTeam = state.hokmDoubler || (bTeam === 1 ? 2 : 1); 
+    
+    if (isBuyerWin) { 
+        if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح ${multStr} الحكم!`; vc = 'win'; 
+    }
+    else if (isTie) {
+        // إذا تعادلوا في الحكم المدبل، اللي طلب الدبل يخسر
+        let doublerTeam = (state.hokmMult === 3) ? bTeam : oTeam;
         let winnerTeam = (doublerTeam === 1) ? 2 : 1;
-        if(winnerTeam === 1) t1g = p; else t2g = p; 
-        verd = `🤝 تعادل! ${tName(doublerTeam)} (المدبل) يخسر الـ ${multStr}`; 
+        
+        if(winnerTeam === 1) t1g = p; else t2g = p;
+        verd = `🤝 تعادل! ${tName(doublerTeam)} (المدبل) يخسر الـ ${multStr}`;
         vc = winnerTeam === bTeam ? 'win' : 'lose';
-    } else { if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر ${multStr} الحكم! النقاط لـ ${tName(oTeam)}`; vc = 'lose'; }
+    }
+    else { 
+        if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر ${multStr} الحكم! النقاط لـ ${tName(oTeam)}`; vc = 'lose'; 
+    }
   } else if (state.mode === 'sun' && state.double > 0) {
-    rahndPts = 0; let doublerTeam = state.double; let p = allPts * 2;
-    if(bTot > oTot) { if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح الدبل!`; vc = 'win'; }
-    else if (bTot === oTot) { 
-        let winnerTeam = doublerTeam === 1 ? 2 : 1; if(winnerTeam === 1) t1g = p; else t2g = p; verd = `🤝 تعادل بالنقاط! ${tName(doublerTeam)} (المدبل) يخسر الدبل`; vc = winnerTeam === bTeam ? 'win' : 'lose';
-    } else { if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر الدبل! كل النقاط لـ ${tName(oTeam)}`; vc = 'lose'; }
+    rahndPts = 0; 
+    let doublerTeam = state.double;
+    let p = allPts * 2;
+    
+    if (isBuyerWin) { 
+        if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح الدبل!`; vc = 'win'; 
+    }
+    else if (isTie) { 
+        // إذا تعادلوا بالصن المدبل، الفريق اللي دبل يخسر
+        let winnerTeam = doublerTeam === 1 ? 2 : 1;
+        if(winnerTeam === 1) t1g = p; else t2g = p;
+        verd = `🤝 تعادل بالنقاط! ${tName(doublerTeam)} (المدبل) يخسر الدبل`;
+        vc = winnerTeam === bTeam ? 'win' : 'lose';
+    }
+    else { 
+        if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر الدبل! كل النقاط لـ ${tName(oTeam)}`; vc = 'lose'; 
+    }
   } else {
-    if(bTot > oTot) { t1g = tot1 + (bTeam===1 ? rahndPts : 0); t2g = tot2 + (bTeam===2 ? rahndPts : 0); rahndPts = 0; verd = `✅ ${tName(bTeam)} يربح الجولة`; vc = 'win'; }
-    else if(bTot === oTot) { rahndPts = 0; t1g = tot1; t2g = tot2; verd = state.mode === 'sun' ? `🤝 تعادل بالصن! (تقاسم النقاط)` : `🤝 تعادل بالحكم! (تقاسم النقاط)`; vc = 'win'; } 
-    else { rahndPts = 0; if(bTeam===1) t2g = allPts; else t1g = allPts; verd = `❌ ${tName(bTeam)} يخسر الجولة`; vc = 'lose'; }
+    if (isBuyerWin) { 
+      t1g = tot1 + (bTeam===1 ? rahndPts : 0); t2g = tot2 + (bTeam===2 ? rahndPts : 0); rahndPts = 0; 
+      verd = `✅ ${tName(bTeam)} يربح الجولة`; vc = 'win'; 
+    }
+    else if (isTie) {
+      // تعادل عادي بدون دبل 
+      rahndPts = 0; 
+      t1g = tot1; 
+      t2g = tot2; 
+      verd = state.mode === 'sun' ? `🤝 تعادل بالصن! (تقاسم النقاط)` : `🤝 تعادل بالحكم! (تقاسم النقاط)`; 
+      vc = 'win';
+    } else { 
+      rahndPts = 0; if(bTeam===1) t2g = allPts; else t1g = allPts; 
+      verd = `❌ ${tName(bTeam)} يخسر الجولة`; vc = 'lose'; 
+    }
   }
   finishRound(t1g, t2g, verd, vc);
 }
@@ -695,35 +809,54 @@ function finishRound(t1g, t2g, verd, vc) {
   box.classList.remove('show'); void box.offsetWidth; box.classList.add('show');
   
   document.getElementById('pts1').value = ''; document.getElementById('pts2').value = '';
-  state.proj1.clear(); state.proj2.clear(); setDouble(0); setHokmMult(1); state.hokmDoubler = 0; setSpecial('none'); renderProj();
+  state.proj1.clear(); state.proj2.clear(); setDouble(0); setHokmMult(1); setSpecial('none'); renderProj();
   saveState();
-  
-  document.querySelector('details').removeAttribute('open');
 }
 
 function updateSB() {
   let s1 = state.scores[0], s2 = state.scores[1];
-  document.getElementById('team1-total').value = s1; document.getElementById('team2-total').value = s2;
-  document.getElementById('team1-card').classList.toggle('winning', s1 >= s2 && s1 > 0); document.getElementById('team2-card').classList.toggle('winning', s2 > s1);
+  
+  document.getElementById('team1-total').value = s1; 
+  document.getElementById('team2-total').value = s2;
+  
+  document.getElementById('team1-card').classList.toggle('winning', s1 >= s2 && s1 > 0);
+  document.getElementById('team2-card').classList.toggle('winning', s2 > s1);
 
   let ban = document.getElementById('winner-banner');
   if(s1 >= 152 || s2 >= 152) {
-    ban.classList.add('show'); let wName = s1 >= s2 ? tName(1) : tName(2); let wScore = Math.max(s1, s2);
+    ban.classList.add('show');
+    let wName = s1 >= s2 ? tName(1) : tName(2);
+    let wScore = Math.max(s1, s2);
     document.getElementById('winner-text').textContent = wName + ' يفوز بالصكة! 🎉';
-    if (!state.winAnnounced) { showWinModal(wName, wScore); state.winAnnounced = true; }
-  } else { ban.classList.remove('show'); state.winAnnounced = false; }
+    if (!state.winAnnounced) {
+      showWinModal(wName, wScore);
+      state.winAnnounced = true;
+    }
+  } else { 
+    ban.classList.remove('show'); 
+    state.winAnnounced = false;
+  }
 }
 
 function updateStats() {
     let t1Sun = 0, t1Hokm = 0, t2Sun = 0, t2Hokm = 0, tPj1 = 0, tPj2 = 0;
     state.history.forEach(h => {
-        if (h.b === 1) { if (h.m === 'sun') t1Sun++; else t1Hokm++; } else { if (h.m === 'sun') t2Sun++; else t2Hokm++; }
-        tPj1 += (h.pCount1 || 0); tPj2 += (h.pCount2 || 0);
+        if (h.b === 1) {
+            if (h.m === 'sun') t1Sun++; else t1Hokm++;
+        } else {
+            if (h.m === 'sun') t2Sun++; else t2Hokm++;
+        }
+        tPj1 += (h.pCount1 || 0);
+        tPj2 += (h.pCount2 || 0);
     });
-    document.getElementById('stat-name1').textContent = tName(1); document.getElementById('stat-name2').textContent = tName(2);
-    document.getElementById('stat-t1-sun').textContent = t1Sun; document.getElementById('stat-t1-hokm').textContent = t1Hokm;
-    document.getElementById('stat-t2-sun').textContent = t2Sun; document.getElementById('stat-t2-hokm').textContent = t2Hokm;
-    document.getElementById('stat-proj1').textContent = tPj1; document.getElementById('stat-proj2').textContent = tPj2;
+    document.getElementById('stat-name1').textContent = tName(1);
+    document.getElementById('stat-name2').textContent = tName(2);
+    document.getElementById('stat-t1-sun').textContent = t1Sun;
+    document.getElementById('stat-t1-hokm').textContent = t1Hokm;
+    document.getElementById('stat-t2-sun').textContent = t2Sun;
+    document.getElementById('stat-t2-hokm').textContent = t2Hokm;
+    document.getElementById('stat-proj1').textContent = tPj1;
+    document.getElementById('stat-proj2').textContent = tPj2;
 }
 
 function renderHist() {
@@ -731,13 +864,16 @@ function renderHist() {
   if(!state.history.length) return c.innerHTML = '<div style="text-align:center; padding:15px; color:#666; font-size:0.8rem;">لا توجد جولات</div>';
   
   let rows = state.history.map((h, i) => {
-    let mb = h.m==='sun' ? '<span class="badge b-sun">صن</span>' : '<span class="badge b-hokm">حكم</span>'; let db = '';
+    let mb = h.m==='sun' ? '<span class="badge b-sun">صن</span>' : '<span class="badge b-hokm">حكم</span>';
+    let db = '';
     if (h.m === 'sun' && h.d > 0) db = '<span class="badge b-dbl">دبل</span>';
     else if (h.m === 'hokm' && h.d !== 1) {
-      let l = h.d === 'ق' ? 'قهوة' : h.d === 'x2' ? 'دبل' : h.d === 'x3' ? 'ثري' : h.d === 'x4' ? 'فور' : ''; if(l) db = `<span class="badge b-dbl">${l}</span>`;
+      let l = h.d === 'ق' ? 'قهوة' : h.d === 'x2' ? 'دبل' : h.d === 'x3' ? 'ثري' : h.d === 'x4' ? 'فور' : '';
+      if(l) db = `<span class="badge b-dbl">${l}</span>`;
     }
     return `<tr><td>${state.history.length-i}</td><td>${mb} ${db}</td><td>${tName(h.b)}</td>
-            <td style="color:${h.p1>0?'#a8e063':'#ff6b6b'}">+${h.p1}</td><td style="color:${h.p2>0?'#a8e063':'#ff6b6b'}">+${h.p2}</td></tr>`;
+            <td style="color:${h.p1>0?'#a8e063':'#ff6b6b'}">+${h.p1}</td>
+            <td style="color:${h.p2>0?'#a8e063':'#ff6b6b'}">+${h.p2}</td></tr>`;
   }).join('');
   c.innerHTML = `<table><tr><th>#</th><th>النوع</th><th>المشتري</th><th>${tName(1)}</th><th>${tName(2)}</th></tr>${rows}</table>`;
 }
@@ -747,8 +883,9 @@ function confirmReset(skip=false) {
   if(!skip && !confirm('هل أنت متأكد من تصفير اللعبة؟')) return;
   state.scores = [0,0]; state.history = []; rahndPts = 0; lastSnapshot = null; state.winAnnounced = false;
   document.getElementById('undo-btn').disabled = true; document.getElementById('result-box').classList.remove('show');
-  setMode('sun'); setBuyer(1); setDouble(0); setHokmMult(1); state.hokmDoubler = 0; setSpecial('none'); updateSB(); renderHist(); updateStats();
-  toast('تم تصفير اللعبة'); saveState();
+  setMode('sun'); setBuyer(1); setDouble(0); setHokmMult(1); setSpecial('none'); updateSB(); renderHist(); updateStats();
+  toast('تم تصفير اللعبة');
+  saveState();
 }
 
 function toast(msg) {
@@ -756,7 +893,11 @@ function toast(msg) {
   t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-loadState(); updateLabels(); renderProj(); updateStats();
+// Load data on start
+loadState();
+updateLabels(); 
+renderProj();
+updateStats();
 </script>
 </body>
 </html>
