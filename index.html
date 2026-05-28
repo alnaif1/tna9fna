@@ -629,13 +629,30 @@ function calculate() {
   snap();
   let bTeam = state.buyer, oTeam = bTeam===1?2:1, t1g = 0, t2g = 0, verd = '', vc = '';
 
+  let prj1_baloot = (state.proj1.get('baloot') || 0) * 2;
+  let prj2_baloot = (state.proj2.get('baloot') || 0) * 2;
+  let prj1_non = calcProj(state.proj1) - prj1_baloot;
+  let prj2_non = calcProj(state.proj2) - prj2_baloot;
+
   if (state.special === 'qahwa') {
     if(bTeam===1) t1g = 152; else t2g = 152; verd = `☕ فوز فوري بالقهوة لـ ${tName(bTeam)}`; finishRound(t1g, t2g, verd, 'win'); return;
   }
   if (state.special === 'kaboot') {
-    let kbts = state.mode==='sun' ? 44 : 25; let allP = kbts + calcProj(state.proj1) + calcProj(state.proj2) + rahndPts; rahndPts = 0; let p = allP;
+    let kbts = state.mode==='sun' ? 44 : 25; 
+    let allP = kbts + prj1_non + prj2_non + prj1_baloot + prj2_baloot + rahndPts; 
+    let p = allP;
+
     if (state.mode === 'sun' && state.double > 0) p = allP * 2;
-    if (state.mode === 'hokm' && state.hokmMult !== 1) p = state.hokmMult === 'qahwa' ? 152 : allP * state.hokmMult;
+    if (state.mode === 'hokm' && state.hokmMult !== 1) {
+        if(state.hokmMult === 'qahwa') {
+            p = 152;
+        } else {
+            // كبوت الحكم المدمبل يطبق عليه نفس القانون
+            p = ((kbts + rahndPts) * state.hokmMult) + ((prj1_non + prj2_non) * 2) + (prj1_baloot + prj2_baloot);
+        }
+    }
+    rahndPts = 0;
+    
     if(bTeam===1) t1g = p; else t2g = p;
     let extraStr = (state.mode === 'sun' && state.double > 0) ? ' (مدبل)' : (state.mode === 'hokm' && state.hokmMult !== 1) ? ` (مضاعف)` : '';
     verd = `💀 كبوت لـ ${tName(bTeam)}${extraStr}`; finishRound(t1g, t2g, verd, 'win'); return;
@@ -648,42 +665,48 @@ function calculate() {
   let nq1 = abntsToNqat(p1raw, state.mode), nq2 = abntsToNqat(p2raw, state.mode);
   let prj1 = calcProj(state.proj1), prj2 = calcProj(state.proj2);
   let tot1 = nq1 + prj1, tot2 = nq2 + prj2;
-  let bTot = bTeam===1 ? tot1 : tot2; let oTot = bTeam===1 ? tot2 : tot1;
+  
+  let bTot = bTeam===1 ? tot1 : tot2; 
+  let oTot = bTeam===1 ? tot2 : tot1;
   let allPts = nq1 + nq2 + prj1 + prj2 + rahndPts;
   
   let isBuyerWin = bTot > oTot;
   let isTie = bTot === oTot;
 
-  // حساب الأبناط الدقيقة (مع المشاريع) لمعرفة الفائز الحقيقي عند التعادل في النقاط (الـ Nqat)
   if (state.mode === 'hokm' && isTie) {
     let bRaw = bTeam===1 ? p1raw : p2raw;
     let oRaw = bTeam===1 ? p2raw : p1raw;
-    
     let bProj = bTeam===1 ? prj1 : prj2;
     let oProj = bTeam===1 ? prj2 : prj1;
 
-    // كل نقطة مشروع تعادل 10 أبناط في الحسبة الخام
     let bTotalAbnat = bRaw + (bProj * 10);
     let oTotalAbnat = oRaw + (oProj * 10);
 
     if (bTotalAbnat < oTotalAbnat) {
-        // إذا كانت أبناط المشتري الإجمالية أقل من أبناط الخصم (مثل 80 مقابل 82، أو 90 مقابل 92 بسبب المشاريع)
         isTie = false;
         isBuyerWin = false; // المشتري خسران
     } else if (bTotalAbnat >= oTotalAbnat) {
-        // إذا كانت أبناط المشتري أعلى أو تساوي الخصم (مثل 82 مقابل 80، أو 81 مقابل 81) تعتبر تعادل
         isTie = true;
     }
   }
   
   if (state.mode === 'hokm' && state.hokmMult !== 1) {
-    rahndPts = 0; let multStr = state.hokmMult === 2 ? 'دبل' : state.hokmMult === 3 ? 'ثري' : state.hokmMult === 4 ? 'فور' : 'قهوة';
-    let p = state.hokmMult === 'qahwa' ? 152 : allPts * state.hokmMult;
+    let nqTotal = nq1 + nq2 + rahndPts;
+    rahndPts = 0; 
+    let multStr = state.hokmMult === 2 ? 'دبل' : state.hokmMult === 3 ? 'ثري' : state.hokmMult === 4 ? 'فور' : 'قهوة';
+    
+    let p;
+    if(state.hokmMult === 'qahwa') {
+        p = 152;
+    } else {
+        // القاعدة الجديدة للدبل والثري والفور بالحكم
+        p = (nqTotal * state.hokmMult) + ((prj1_non + prj2_non) * 2) + (prj1_baloot + prj2_baloot);
+    }
+    
     if (isBuyerWin) { 
         if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح ${multStr} الحكم!`; vc = 'win'; 
     }
     else if (isTie) {
-        // المدبل يخسر حتى لو تعادلوا
         let doublerTeam = state.hokmDoubler || (bTeam === 1 ? 2 : 1); 
         let winnerTeam = (doublerTeam === 1) ? 2 : 1;
         if(winnerTeam === 1) t1g = p; else t2g = p; 
