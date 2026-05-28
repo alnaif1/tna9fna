@@ -308,7 +308,6 @@
       </div>
     </div>
 
-    <!-- تم رفع زر الحساب ليكون هنا -->
     <button class="action-btn calc-btn" onclick="calculate()">⚡ احسب الجولة</button>
 
     <details>
@@ -655,21 +654,25 @@ function calculate() {
   let isBuyerWin = bTot > oTot;
   let isTie = bTot === oTot;
 
-  // قواعد الـ 80 و 82 والتأكد من الأبناط الخام
+  // حساب الأبناط الدقيقة (مع المشاريع) لمعرفة الفائز الحقيقي عند التعادل في النقاط (الـ Nqat)
   if (state.mode === 'hokm' && isTie) {
     let bRaw = bTeam===1 ? p1raw : p2raw;
     let oRaw = bTeam===1 ? p2raw : p1raw;
+    
+    let bProj = bTeam===1 ? prj1 : prj2;
+    let oProj = bTeam===1 ? prj2 : prj1;
 
-    if (bRaw === 80 && oRaw === 82) {
+    // كل نقطة مشروع تعادل 10 أبناط في الحسبة الخام
+    let bTotalAbnat = bRaw + (bProj * 10);
+    let oTotalAbnat = oRaw + (oProj * 10);
+
+    if (bTotalAbnat < oTotalAbnat) {
+        // إذا كانت أبناط المشتري الإجمالية أقل من أبناط الخصم (مثل 80 مقابل 82، أو 90 مقابل 92 بسبب المشاريع)
         isTie = false;
         isBuyerWin = false; // المشتري خسران
-    } else if (bRaw === 82 && oRaw === 80) {
-        isTie = true; // تعادل المشتري
-    } else if (bRaw === 81 && oRaw === 81) {
-        isTie = true; // تعادل (سيتم معاقبة المدبل إذا كان هناك دبل)
-    } else if (bRaw < oRaw) {
-        isTie = false;
-        isBuyerWin = false; // المشتري خسران كقاعدة عامة في المشاريع
+    } else if (bTotalAbnat >= oTotalAbnat) {
+        // إذا كانت أبناط المشتري أعلى أو تساوي الخصم (مثل 82 مقابل 80، أو 81 مقابل 81) تعتبر تعادل
+        isTie = true;
     }
   }
   
