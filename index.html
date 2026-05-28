@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="حاسبة بلوت">
-<link rel="apple-touch-icon" href="رابط_صورة_الايقونة.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/alnaif1/my-icon3/refs/heads/main/my-icon3.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
@@ -449,7 +449,6 @@ function loadState() {
 // ================= MANUAL SCORE UPDATE =================
 function manualScoreUpdate(team) {
   let inp = document.getElementById('team' + team + '-total');
-  // تحويل الأرقام العربية إلى إنجليزية إن وُجدت
   let vStr = inp.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
   let val = parseInt(vStr, 10);
   if (isNaN(val)) val = 0;
@@ -474,7 +473,7 @@ function confirmAction() {
 }
 
 // ================= AUDIO & FIREWORKS =================
-let currentWinAudio = new Audio('https://www.top4top.me/download/qUq98sj3dVsyICp/2WVGrqbn0zkx7/win.mp3');
+let currentWinAudio = new Audio('https://github.com/alnaif1/shrbkhmp3/raw/refs/heads/main/win.mp3');
 function playWinSound() { try { currentWinAudio.currentTime = 0; currentWinAudio.play(); } catch(e){} }
 function stopWinSound() { try { currentWinAudio.pause(); currentWinAudio.currentTime = 0; } catch(e){} }
 
@@ -715,7 +714,6 @@ function calculate() {
     return toast(`⚠️ تأكد من الأبناط (المجموع يجب أن يكون ${req})`);
   }
 
-  // استخدام حساب النقاط المستقل لدعم حالة الـ 17 بنط بشكل دقيق
   let nq1 = abntsToNqat(p1raw, state.mode);
   let nq2 = abntsToNqat(p2raw, state.mode);
   
@@ -728,18 +726,58 @@ function calculate() {
     rahndPts = 0;
     let multStr = state.hokmMult === 2 ? 'دبل' : state.hokmMult === 3 ? 'ثري' : state.hokmMult === 4 ? 'فور' : 'قهوة';
     let p = state.hokmMult === 'qahwa' ? 152 : allPts * state.hokmMult;
-    if (bTot > oTot) { if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح ${multStr} الحكم!`; vc = 'win'; }
-    else { if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر ${multStr} الحكم! النقاط لـ ${tName(oTeam)}`; vc = 'lose'; }
+    if (bTot > oTot) { 
+        if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح ${multStr} الحكم!`; vc = 'win'; 
+    }
+    else if (bTot === oTot) {
+        // إذا تعادلوا في الحكم المدبل، اللي طلب الدبل يخسر
+        // x2 (دبل) طالع من الخصم
+        // x3 (ثري) طالع من المشتري
+        // x4 (فور) طالع من الخصم
+        let doublerTeam = (state.hokmMult === 3) ? bTeam : oTeam;
+        let winnerTeam = (doublerTeam === 1) ? 2 : 1;
+        
+        if(winnerTeam === 1) t1g = p; else t2g = p;
+        verd = `🤝 تعادل! ${tName(doublerTeam)} (المدبل) يخسر الـ ${multStr}`;
+        vc = winnerTeam === bTeam ? 'win' : 'lose';
+    }
+    else { 
+        if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر ${multStr} الحكم! النقاط لـ ${tName(oTeam)}`; vc = 'lose'; 
+    }
   } else if (state.mode === 'sun' && state.double > 0) {
     rahndPts = 0; 
-    if(bTot > oTot) { if(bTeam===1) t1g = allPts * 2; else t2g = allPts * 2; verd = `🔥 ${tName(bTeam)} يربح الدبل!`; vc = 'win'; }
-    else { if(bTeam===1) t2g = allPts * 2; else t1g = allPts * 2; verd = `💥 ${tName(bTeam)} يخسر الدبل! كل النقاط لـ ${tName(oTeam)}`; vc = 'lose'; }
+    let doublerTeam = state.double;
+    let p = allPts * 2;
+    
+    if(bTot > oTot) { 
+        if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح الدبل!`; vc = 'win'; 
+    }
+    else if (bTot === oTot) { 
+        // إذا تعادلوا بالصن المدبل، الفريق اللي دبل يخسر
+        let winnerTeam = doublerTeam === 1 ? 2 : 1;
+        if(winnerTeam === 1) t1g = p; else t2g = p;
+        verd = `🤝 تعادل بالنقاط! ${tName(doublerTeam)} (المدبل) يخسر الدبل`;
+        vc = winnerTeam === bTeam ? 'win' : 'lose';
+    }
+    else { 
+        if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر الدبل! كل النقاط لـ ${tName(oTeam)}`; vc = 'lose'; 
+    }
   } else {
-    if(bTot > oTot) { t1g = tot1 + (bTeam===1 ? rahndPts : 0); t2g = tot2 + (bTeam===2 ? rahndPts : 0); rahndPts = 0; verd = `✅ ${tName(bTeam)} يربح الجولة`; vc = 'win'; }
+    if(bTot > oTot) { 
+      t1g = tot1 + (bTeam===1 ? rahndPts : 0); t2g = tot2 + (bTeam===2 ? rahndPts : 0); rahndPts = 0; 
+      verd = `✅ ${tName(bTeam)} يربح الجولة`; vc = 'win'; 
+    }
     else if(bTot === oTot) {
-      if(state.mode === 'sun') { rahndPts = 0; t1g = tot1; t2g = tot2; verd = `🤝 تعادل بالصن! (تقاسم النقاط)`; vc = 'win'; }
-      else { rahndPts = 0; if(bTeam===1) t2g = allPts; else t1g = allPts; verd = `❌ تعادل بالحكم! ${tName(bTeam)} يخسر الجولة`; vc = 'lose'; }
-    } else { rahndPts = 0; if(bTeam===1) t2g = allPts; else t1g = allPts; verd = `❌ ${tName(bTeam)} يخسر الجولة`; vc = 'lose'; }
+      // تعادل عادي بدون دبل (يتم تقاسم النقاط كما طلبت سابقاً)
+      rahndPts = 0; 
+      t1g = tot1; 
+      t2g = tot2; 
+      verd = state.mode === 'sun' ? `🤝 تعادل بالصن! (تقاسم النقاط)` : `🤝 تعادل بالحكم! (تقاسم النقاط)`; 
+      vc = 'win';
+    } else { 
+      rahndPts = 0; if(bTeam===1) t2g = allPts; else t1g = allPts; 
+      verd = `❌ ${tName(bTeam)} يخسر الجولة`; vc = 'lose'; 
+    }
   }
   finishRound(t1g, t2g, verd, vc);
 }
