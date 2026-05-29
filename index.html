@@ -248,7 +248,6 @@
 
   <div class="winner-banner" id="winner-banner">🏆 <span id="winner-text"></span></div>
 
-  <!-- لوحة الجولة -->
   <div class="panel">
     
     <div class="setup-row">
@@ -287,7 +286,6 @@
         <button class="btn-choice btn-hmul" id="btn-hmul-q" onclick="setHokmMult('qahwa')">قهوة</button>
       </div>
       
-      <!-- إضافة من ضاعف في الحكم -->
       <div id="hokm-doubler-container" style="display:none; margin-top: 8px;">
         <label style="font-size:0.7rem; color:#aaa; margin-bottom:4px; display:block;">من ضاعف؟ (أعطى الدبل)</label>
         <div class="buyer-select">
@@ -621,8 +619,21 @@ function proceedUndo() {
 }
 
 function abntsToNqat(abnts, mode) {
-  if(mode === 'sun') { let d = abnts * 2; return Math.floor(d/10) + (d%10 >= 5 ? 1 : 0); }
-  else { return Math.floor(abnts/10) + (abnts%10 > 5 ? 1 : 0); }
+  if (mode === 'sun') {
+    let mod = abnts % 10; // استخراج الآحاد من الأبناط الأصلية
+    let base = Math.floor(abnts / 10) * 2; // حساب النقاط الأساسية
+
+    if (mod < 5) {
+      return base; // آحاد أقل من 5 تُحذف
+    } else if (mod === 5) {
+      return base + 1; // آحاد تساوي 5 تُعطي بنط إضافي واحد
+    } else {
+      return base + 2; // آحاد أكبر من 5 تُجبر وتُعطي بنطين
+    }
+  } else {
+    // حساب الحكم يبقى كما هو
+    return Math.floor(abnts / 10) + (abnts % 10 > 5 ? 1 : 0);
+  }
 }
 
 function calculate() {
