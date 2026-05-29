@@ -83,10 +83,34 @@
   }
   .team-score-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
 
-  .vs-divider { text-align: center; font-size: 1.1rem; font-weight: 900; color: rgba(255,255,255,0.3); font-family: 'Cairo', sans-serif; }
-  .target-badge { display: flex; flex-direction: column; align-items: center; margin-top: 2px; }
-  .target-badge span { font-size: 0.6rem; color: rgba(255,255,255,0.4); }
-  .target-badge strong { font-size: 0.9rem; color: var(--gold); }
+  /* Dealer Arrow Styles */
+  .vs-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .dealer-label { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 4px; font-weight: 700; }
+  .dealer-wrap {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.2s, transform 0.1s;
+  }
+  .dealer-wrap:active {
+    background: rgba(255,255,255,0.1);
+    transform: scale(0.95);
+  }
+  #dealer-arrow {
+    color: var(--gold-light);
+    font-size: 1.8rem;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    line-height: 1;
+    user-select: none;
+    text-shadow: 0 0 10px rgba(201,162,39,0.4);
+  }
 
   /* Winner Banner */
   .winner-banner {
@@ -235,10 +259,14 @@
       <input type="text" inputmode="numeric" class="team-score" id="team1-total" value="0" onchange="manualScoreUpdate(1)">
       <div class="team-score-label">بنط</div>
     </div>
+    
     <div class="vs-divider">
-      <div>VS</div>
-      <div class="target-badge"><span>الهدف</span><strong>152</strong></div>
+      <div class="dealer-label">الموزع</div>
+      <div class="dealer-wrap" onclick="rotateDealer()" title="اضغط لتغيير الموزع يدوياً">
+        <div id="dealer-arrow">➔</div>
+      </div>
     </div>
+
     <div class="team-card" id="team2-card">
       <input class="team-name-input" id="team2-name" value="لهم" maxlength="12">
       <input type="text" inputmode="numeric" class="team-score" id="team2-total" value="0" onchange="manualScoreUpdate(2)">
@@ -398,7 +426,7 @@
 let state = {
   mode: 'sun', buyer: 1, double: 0, hokmMult: 1, hokmDoubler: 0, tieMode: 'split', special: 'none',
   proj1: new Map(), proj2: new Map(),
-  scores: [0, 0], history: [], winAnnounced: false
+  scores: [0, 0], history: [], winAnnounced: false, dealerAngle: 0
 };
 let lastSnapshot = null;
 let rahndPts = 0; 
@@ -421,10 +449,24 @@ function loadState() {
       ...parsed,
       proj1: new Map(parsed.proj1),
       proj2: new Map(parsed.proj2),
-      hokmDoubler: parsed.hokmDoubler || 0
+      hokmDoubler: parsed.hokmDoubler || 0,
+      dealerAngle: parsed.dealerAngle || 0
     };
-    updateSB(); renderHist(); renderProj(); updateStats();
+    updateSB(); renderHist(); renderProj(); updateStats(); updateDealerUI();
     setMode(state.mode); setBuyer(state.buyer); setDouble(state.double); setHokmMult(state.hokmMult); setHokmDoubler(state.hokmDoubler); setSpecial(state.special);
+  }
+}
+
+function rotateDealer() {
+  state.dealerAngle -= 90;
+  updateDealerUI();
+  saveState();
+}
+
+function updateDealerUI() {
+  const arrow = document.getElementById('dealer-arrow');
+  if (arrow) {
+    arrow.style.transform = `rotate(${state.dealerAngle}deg)`;
   }
 }
 
@@ -605,33 +647,27 @@ function syncPts(changed) {
 }
 
 function snap() {
-  lastSnapshot = { s: [...state.scores], m: state.mode, b: state.buyer, d: state.double, hm: state.hokmMult, hd: state.hokmDoubler, tm: state.tieMode, sp: state.special, p1: new Map(state.proj1), p2: new Map(state.proj2), h: [...state.history], r: rahndPts };
+  lastSnapshot = { s: [...state.scores], m: state.mode, b: state.buyer, d: state.double, hm: state.hokmMult, hd: state.hokmDoubler, tm: state.tieMode, sp: state.special, p1: new Map(state.proj1), p2: new Map(state.proj2), h: [...state.history], r: rahndPts, da: state.dealerAngle };
   document.getElementById('undo-btn').disabled = false;
 }
 
 function proceedUndo() {
     if(!lastSnapshot) return;
     state.scores = [...lastSnapshot.s]; state.mode = lastSnapshot.m; state.buyer = lastSnapshot.b; state.double = lastSnapshot.d; state.hokmMult = lastSnapshot.hm; state.hokmDoubler = lastSnapshot.hd; state.tieMode = lastSnapshot.tm; state.special = lastSnapshot.sp;
-    state.proj1 = new Map(lastSnapshot.p1); state.proj2 = new Map(lastSnapshot.p2); state.history = [...lastSnapshot.h]; rahndPts = lastSnapshot.r;
+    state.proj1 = new Map(lastSnapshot.p1); state.proj2 = new Map(lastSnapshot.p2); state.history = [...lastSnapshot.h]; rahndPts = lastSnapshot.r; state.dealerAngle = lastSnapshot.da;
     setMode(state.mode); setBuyer(state.buyer); setDouble(state.double); setHokmMult(state.hokmMult); if(state.hokmDoubler) setHokmDoubler(state.hokmDoubler); setSpecial(state.special);
-    updateSB(); renderHist(); updateStats(); document.getElementById('undo-btn').disabled = true; document.getElementById('result-box').classList.remove('show');
+    updateDealerUI(); updateSB(); renderHist(); updateStats(); document.getElementById('undo-btn').disabled = true; document.getElementById('result-box').classList.remove('show');
     toast('تم التراجع بنجاح'); saveState();
 }
 
 function abntsToNqat(abnts, mode) {
   if (mode === 'sun') {
-    let mod = abnts % 10; // استخراج الآحاد من الأبناط الأصلية
-    let base = Math.floor(abnts / 10) * 2; // حساب النقاط الأساسية
-
-    if (mod < 5) {
-      return base; // آحاد أقل من 5 تُحذف
-    } else if (mod === 5) {
-      return base + 1; // آحاد تساوي 5 تُعطي بنط إضافي واحد
-    } else {
-      return base + 2; // آحاد أكبر من 5 تُجبر وتُعطي بنطين
-    }
+    let mod = abnts % 10;
+    let base = Math.floor(abnts / 10) * 2;
+    if (mod < 5) return base;
+    else if (mod === 5) return base + 1;
+    else return base + 2;
   } else {
-    // حساب الحكم يبقى كما هو
     return Math.floor(abnts / 10) + (abnts % 10 > 5 ? 1 : 0);
   }
 }
@@ -655,12 +691,8 @@ function calculate() {
 
     if (state.mode === 'sun' && state.double > 0) p = allP * 2;
     if (state.mode === 'hokm' && state.hokmMult !== 1) {
-        if(state.hokmMult === 'qahwa') {
-            p = 152;
-        } else {
-            // كبوت الحكم المدمبل يطبق عليه نفس القانون
-            p = ((kbts + rahndPts) * state.hokmMult) + ((prj1_non + prj2_non) * 2) + (prj1_baloot + prj2_baloot);
-        }
+        if(state.hokmMult === 'qahwa') p = 152;
+        else p = ((kbts + rahndPts) * state.hokmMult) + ((prj1_non + prj2_non) * 2) + (prj1_baloot + prj2_baloot);
     }
     rahndPts = 0;
     
@@ -689,35 +721,24 @@ function calculate() {
     let oRaw = bTeam===1 ? p2raw : p1raw;
     let bProj = bTeam===1 ? prj1 : prj2;
     let oProj = bTeam===1 ? prj2 : prj1;
-
     let bTotalAbnat = bRaw + (bProj * 10);
     let oTotalAbnat = oRaw + (oProj * 10);
 
-    if (bTotalAbnat < oTotalAbnat) {
-        isTie = false;
-        isBuyerWin = false; // المشتري خسران
-    } else if (bTotalAbnat >= oTotalAbnat) {
-        isTie = true;
-    }
+    if (bTotalAbnat < oTotalAbnat) { isTie = false; isBuyerWin = false; } 
+    else if (bTotalAbnat >= oTotalAbnat) { isTie = true; }
   }
   
   if (state.mode === 'hokm' && state.hokmMult !== 1) {
-    let nqTotal = nq1 + nq2 + rahndPts;
-    rahndPts = 0; 
+    let nqTotal = nq1 + nq2 + rahndPts; rahndPts = 0; 
     let multStr = state.hokmMult === 2 ? 'دبل' : state.hokmMult === 3 ? 'ثري' : state.hokmMult === 4 ? 'فور' : 'قهوة';
     
     let p;
-    if(state.hokmMult === 'qahwa') {
-        p = 152;
-    } else {
-        // القاعدة الجديدة للدبل والثري والفور بالحكم
-        p = (nqTotal * state.hokmMult) + ((prj1_non + prj2_non) * 2) + (prj1_baloot + prj2_baloot);
-    }
+    if(state.hokmMult === 'qahwa') p = 152;
+    else p = (nqTotal * state.hokmMult) + ((prj1_non + prj2_non) * 2) + (prj1_baloot + prj2_baloot);
     
     if (isBuyerWin) { 
         if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح ${multStr} الحكم!`; vc = 'win'; 
-    }
-    else if (isTie) {
+    } else if (isTie) {
         let doublerTeam = state.hokmDoubler || (bTeam === 1 ? 2 : 1); 
         let winnerTeam = (doublerTeam === 1) ? 2 : 1;
         if(winnerTeam === 1) t1g = p; else t2g = p; 
@@ -730,8 +751,7 @@ function calculate() {
     rahndPts = 0; let doublerTeam = state.double; let p = allPts * 2;
     if(isBuyerWin) { 
         if(bTeam===1) t1g = p; else t2g = p; verd = `🔥 ${tName(bTeam)} يربح الدبل!`; vc = 'win'; 
-    }
-    else if (isTie) { 
+    } else if (isTie) { 
         let winnerTeam = doublerTeam === 1 ? 2 : 1; if(winnerTeam === 1) t1g = p; else t2g = p; verd = `🤝 تعادل بالنقاط! ${tName(doublerTeam)} (المدبل) يخسر الدبل`; vc = winnerTeam === bTeam ? 'win' : 'lose';
     } else { 
         if(bTeam===1) t2g = p; else t1g = p; verd = `💥 ${tName(bTeam)} يخسر الدبل! كل النقاط لـ ${tName(oTeam)}`; vc = 'lose'; 
@@ -739,11 +759,9 @@ function calculate() {
   } else {
     if(isBuyerWin) { 
         t1g = tot1 + (bTeam===1 ? rahndPts : 0); t2g = tot2 + (bTeam===2 ? rahndPts : 0); rahndPts = 0; verd = `✅ ${tName(bTeam)} يربح الجولة`; vc = 'win'; 
-    }
-    else if(isTie) { 
+    } else if(isTie) { 
         rahndPts = 0; t1g = tot1; t2g = tot2; verd = state.mode === 'sun' ? `🤝 تعادل بالصن! (تقاسم النقاط)` : `🤝 تعادل بالحكم! (تقاسم النقاط)`; vc = 'win'; 
-    } 
-    else { 
+    } else { 
         rahndPts = 0; if(bTeam===1) t2g = allPts; else t1g = allPts; verd = `❌ ${tName(bTeam)} يخسر الجولة`; vc = 'lose'; 
     }
   }
@@ -766,8 +784,8 @@ function finishRound(t1g, t2g, verd, vc) {
   
   document.getElementById('pts1').value = ''; document.getElementById('pts2').value = '';
   state.proj1.clear(); state.proj2.clear(); setDouble(0); setHokmMult(1); state.hokmDoubler = 0; setSpecial('none'); renderProj();
-  saveState();
   
+  rotateDealer(); // Updates the dealer arrow direction and calls saveState()
   document.querySelector('details').removeAttribute('open');
 }
 
@@ -815,9 +833,9 @@ function renderHist() {
 function clearHistory() { if(confirm('مسح السجل بالكامل؟')) confirmReset(true); }
 function confirmReset(skip=false) {
   if(!skip && !confirm('هل أنت متأكد من تصفير اللعبة؟')) return;
-  state.scores = [0,0]; state.history = []; rahndPts = 0; lastSnapshot = null; state.winAnnounced = false;
+  state.scores = [0,0]; state.history = []; rahndPts = 0; lastSnapshot = null; state.winAnnounced = false; state.dealerAngle = 0;
   document.getElementById('undo-btn').disabled = true; document.getElementById('result-box').classList.remove('show');
-  setMode('sun'); setBuyer(1); setDouble(0); setHokmMult(1); state.hokmDoubler = 0; setSpecial('none'); updateSB(); renderHist(); updateStats();
+  setMode('sun'); setBuyer(1); setDouble(0); setHokmMult(1); state.hokmDoubler = 0; setSpecial('none'); updateDealerUI(); updateSB(); renderHist(); updateStats();
   toast('تم تصفير اللعبة'); saveState();
 }
 
