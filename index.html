@@ -149,8 +149,10 @@
     background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.6);
     font-family: 'Tajawal', sans-serif; font-size: 0.85rem; font-weight: 700;
     cursor: pointer; transition: all 0.2s; text-align: center;
+    /* التعديل هنا: لتوحيد المقاسات */
+    display: flex; justify-content: center; align-items: center; min-height: 40px;
   }
-  .btn-hmul { padding: 6px 2px; font-size: 0.75rem; }
+  .btn-hmul { font-size: 0.75rem; }
   
   .btn-choice.active, .buyer-btn.active { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
   .btn-choice.active-double { background: #e74c3c; border-color: #c0392b; color: #fff; }
@@ -259,7 +261,7 @@
 
   <div class="header">
     <div class="cards-decoration"><span>♠</span><span style="color:var(--gold-light)">♥</span><span>♦</span><span style="color:var(--gold-light)">♣</span></div>
-    <h1>حاسبة بلوت تناصفنا</h1>
+    <h1>حاسبة بلوت MEN NEWS</h1>
     <p class="subtitle">احسب نقاطك بدقة • الفوز بـ 152 بنط</p>
   </div>
 
