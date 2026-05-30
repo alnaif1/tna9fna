@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>حاسبة بلوت MEN NEWS</title>
+<title>تناصفنا</title>
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -85,18 +85,24 @@
 
   /* Dealer Arrow Styles */
   .vs-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .dealer-label { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 4px; font-weight: 700; }
+  .dealer-label { 
+    font-size: 0.85rem; 
+    color: var(--gold-light); 
+    margin-bottom: 6px; 
+    font-weight: 900; 
+    text-shadow: 0 0 8px rgba(201,162,39,0.4);
+  }
   .dealer-wrap {
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
     margin: 0 auto;
     border-radius: 50%;
     background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
     transition: background 0.2s, transform 0.1s;
   }
   .dealer-wrap:active {
@@ -105,11 +111,15 @@
   }
   #dealer-arrow {
     color: var(--gold-light);
-    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    line-height: 1;
-    user-select: none;
-    text-shadow: 0 0 10px rgba(201,162,39,0.4);
+  }
+  #dealer-arrow svg {
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0 0 5px rgba(201,162,39,0.5));
   }
 
   /* Winner Banner */
@@ -249,7 +259,7 @@
 
   <div class="header">
     <div class="cards-decoration"><span>♠</span><span style="color:var(--gold-light)">♥</span><span>♦</span><span style="color:var(--gold-light)">♣</span></div>
-    <h1>حاسبة بلوت MEN NEWS</h1>
+    <h1>حاسبة بلوت تناصفنا</h1>
     <p class="subtitle">احسب نقاطك بدقة • الفوز بـ 152 بنط</p>
   </div>
 
@@ -263,7 +273,11 @@
     <div class="vs-divider">
       <div class="dealer-label">الموزع</div>
       <div class="dealer-wrap" onclick="rotateDealer()" title="اضغط لتغيير الموزع يدوياً">
-        <div id="dealer-arrow">➔</div>
+        <div id="dealer-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+          </svg>
+        </div>
       </div>
     </div>
 
